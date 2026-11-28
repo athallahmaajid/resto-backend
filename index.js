@@ -3,7 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const supabase = require("./config/supabase");
 const menuRoutes = require("./routes/menuRoutes");
-
+require("dotenv").config();
+const authRoutes = require("./routes/authRoutes");
+const authenticate = require("./middleware/authenticate");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -43,20 +45,6 @@ app.get("/test-db", async (req, res) => {
         });
     }
 });
-
-// Menjalankan server
-app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
-});
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-
-const authRoutes = require("./routes/authRoutes");
-const authenticate = require("./middleware/authenticate");
-
-const app = express();
-
 // Middleware
 app.use(
   cors({
@@ -87,8 +75,6 @@ app.use((req, res) => {
 
 // Menjalankan server secara lokal
 if (require.main === module) {
-  const PORT = process.env.PORT || 2000;
-
   app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
   });
